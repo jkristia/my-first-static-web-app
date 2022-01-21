@@ -3,10 +3,15 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-root',
-  template: `<div> - {{message}} - </div>`,
+  template: `
+    <div> - {{message}} - </div>
+    <div (click)="onClick()">Click Here</div>
+    <div>{{clickMessage}}</div>
+    `,
 })
 export class AppComponent {
-  message = 'howdy';
+  message = 'waiting';
+  clickMessage = '';
 
   constructor(private http: HttpClient) {
     console.log('Lets begin')
@@ -23,5 +28,11 @@ export class AppComponent {
     const resp: any = await this.http.get('/api/message').toPromise()
     console.log('<< load', resp)
     this.message = resp.message || 'oh oh'
+  }
+  async onClick() {
+    console.log('>> onClick')
+    const resp: any = await this.http.get('/api/clickmessage').toPromise()
+    console.log('<< onClick', resp)
+    this.clickMessage = resp.message || 'oh oh'
   }
 }
